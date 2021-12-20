@@ -12,16 +12,6 @@
 
 #include "ft_printf.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-		i++;
-	return (i);
-}
-
 void	ft_putchar(char c, int *count)
 {
 	write(1, &c, 1);
@@ -33,6 +23,12 @@ void	ft_putstr(char *str, int *count)
 	int	i;
 
 	i = 0;
+	if (!str)
+	{
+		write(1, "(null)", 6);
+		(*count) += 6;
+		return ;
+	}
 	while(str[i])
 	{
 		i++;
@@ -45,7 +41,7 @@ void	ft_putnbr(int nb, int *count)
 {
 	if (nb == -2147483648)
 	{
-		ft_putstr("-2147482648", count);
+		ft_putstr("-2147483648", count);
 		return ;
 	}
 	if (nb < 0)
@@ -62,16 +58,31 @@ void	ft_putnbr(int nb, int *count)
 	}
 }
 
-void	ft_putnbr_hex(unsigned long nb, int *count)
+void	ft_putnbr_hex_lowercase(unsigned long nb, int *count)
 {
 	const char *hex = "0123456789abcdef";
 
 	if (nb >= 16)
 	{
-		ft_putnbr_hex((nb / 16), count);
+		ft_putnbr_hex_lowercase((nb / 16), count);
 		ft_putchar(hex[nb % 16], count);
 	}
-	if (nb < 16)
+	else
+	{
+		ft_putchar(hex[nb % 16], count);
+	}
+}
+
+void	ft_putnbr_hex_uppercase(unsigned long nb, int *count)
+{
+	const char *hex = "0123456789ABCDEF";
+
+	if (nb >= 16)
+	{
+		ft_putnbr_hex_uppercase((nb / 16), count);
+		ft_putchar(hex[nb % 16], count);
+	}
+	else
 	{
 		ft_putchar(hex[nb % 16], count);
 	}

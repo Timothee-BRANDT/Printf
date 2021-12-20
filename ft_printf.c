@@ -24,10 +24,14 @@ int	ft_printf(const char *str, ...)
 	while (str[i])
 	{
 		if (str[i] == '%' && str[i + 1])
-			handle_params(str, &count, i, argptr);
-		else if (str[i - 1] != '%' || !str[i - 1])
+		{
+			i++;
+			check_params(str, &count, i, argptr);
+		}
+		else 
 			ft_putchar(str[i], &count);
 		i++;
 	}
+	va_end(argptr);
 	return (count);
 }

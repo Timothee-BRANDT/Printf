@@ -15,23 +15,28 @@
 void	ft_putptr(void *ptr, int *count)
 {
 	ft_putstr("0x", count);
-	ft_putnbr_hex((long)ptr, count);
+	ft_putnbr_hex_lowercase((long)ptr, count);
 }
 
-void	ft_putnbr_unsigned(unsigned long nb, int *count)
+void	ft_putchar_unsigned(unsigned int c, int *count)
 {
-	if (nb >= 0 && nb <= 9)
-		ft_putchar(nb + 48, count);
+	write(1, &c, 1);
+	(*count)++;
+}
+
+void	ft_putnbr_unsigned(unsigned int nb, int *count)
+{
 	if (nb >= 10)
 	{
 		ft_putnbr_unsigned(nb / 10, count);
-		ft_putchar(nb % 10 + 48, count);
+		ft_putchar_unsigned(nb % 10 + 48, count);
 	}
+	else
+		ft_putchar_unsigned(nb + 48, count);
 }	
 
-void	handle_params(const char *str, int *count, int i, va_list argptr)
+void	check_params(const char *str, int *count, int i, va_list argptr)
 {
-	i++;
 	if (str[i] == 'c')
 		ft_putchar(va_arg(argptr, int), count);
 	else if (str[i] == 's')
@@ -41,7 +46,11 @@ void	handle_params(const char *str, int *count, int i, va_list argptr)
 	else if (str[i] == 'd' || str[i] == 'i')
 		ft_putnbr(va_arg(argptr, int), count);
 	else if (str[i] == 'u')
-		ft_putnbr_unsigned(va_arg(argptr, unsigned long), count);
+		ft_putnbr_unsigned(va_arg(argptr, unsigned int), count);
 	else if (str[i] == 'x')
-		ft_putnbr_hex(va_arg(argptr, unsigned long), count);
+		ft_putnbr_hex_lowercase(va_arg(argptr, unsigned int), count);
+	else if (str[i] == 'X')
+		ft_putnbr_hex_uppercase(va_arg(argptr, unsigned int), count);
+	else if (str[i] == '%')
+		ft_putchar('%', count);
 }

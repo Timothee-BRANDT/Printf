@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FCTS = main.c ft_printf.c ft_printf_utils.c ft_printf_utils2.c
+FCTS = ft_printf.c ft_printf_utils.c ft_printf_utils2.c
 
 NAME = libftprintf.a
 
